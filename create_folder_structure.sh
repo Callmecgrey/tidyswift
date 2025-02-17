@@ -30,11 +30,16 @@ touch "$BASE_DIR/Sources/Views/Components/TidyLabel.swift"
 mkdir -p "$BASE_DIR/Sources/Views/Cells"
 touch "$BASE_DIR/Sources/Views/Cells/OrderCell.swift"
 
-# ViewControllers
+# ViewControllers (New Pages)
 mkdir -p "$BASE_DIR/Sources/ViewControllers"
-touch "$BASE_DIR/Sources/ViewControllers/HomeViewController.swift"
-touch "$BASE_DIR/Sources/ViewControllers/SchedulePickupViewController.swift"
-touch "$BASE_DIR/Sources/ViewControllers/OrderDetailsViewController.swift"
+touch "$BASE_DIR/Sources/ViewControllers/LandingViewController.swift"      # Home landing page (sign up / login)
+touch "$BASE_DIR/Sources/ViewControllers/LoginViewController.swift"        # Login page
+touch "$BASE_DIR/Sources/ViewControllers/SignupViewController.swift"       # Signup page
+touch "$BASE_DIR/Sources/ViewControllers/DashboardViewController.swift"    # Home page after login
+touch "$BASE_DIR/Sources/ViewControllers/CreateOrderViewController.swift"  # Create an order page
+touch "$BASE_DIR/Sources/ViewControllers/AcceptOrderViewController.swift"  # Accept order page
+touch "$BASE_DIR/Sources/ViewControllers/ListProductsViewController.swift" # List product page
+touch "$BASE_DIR/Sources/ViewControllers/OrderDetailsViewController.swift" # Order details page (if needed)
 
 # Networking
 mkdir -p "$BASE_DIR/Sources/Networking"

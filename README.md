@@ -23,9 +23,14 @@ TidySwift/
 │   │   │   └── ...
 │   │   └── ...
 │   ├── ViewControllers/          // Screen-specific view controllers
-│   │   ├── HomeViewController.swift
-│   │   ├── SchedulePickupViewController.swift
-│   │   └── OrderDetailsViewController.swift
+│   │   ├── LandingViewController.swift      // Home landing page: asks user to sign up or login
+│   │   ├── LoginViewController.swift        // Login page
+│   │   ├── SignupViewController.swift       // Signup page
+│   │   ├── DashboardViewController.swift    // Home page after login
+│   │   ├── CreateOrderViewController.swift    // Create an order page
+│   │   ├── AcceptOrderViewController.swift    // Accept order page
+│   │   ├── ListProductsViewController.swift   // List product page
+│   │   └── OrderDetailsViewController.swift   // Additional order detail page (if needed)
 │   ├── Networking/               // API calls and network layer
 │   │   ├── APIManager.swift
 │   │   ├── Endpoints.swift
