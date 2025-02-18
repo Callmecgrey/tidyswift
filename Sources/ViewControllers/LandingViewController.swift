@@ -39,10 +39,11 @@ class LandingViewController: UIViewController {
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        setupUI()
-        setupActions()
+    super.viewDidLoad()
+    print("LandingViewController viewDidLoad")
+    view.backgroundColor = .white
+    setupUI()
+    setupActions()
     }
     
     // MARK: - Setup Methods
@@ -52,7 +53,7 @@ class LandingViewController: UIViewController {
         view.addSubview(loginButton)
         view.addSubview(signupButton)
         
-        // Set up Auto Layout constraints
+        // Activate Auto Layout constraints
         NSLayoutConstraint.activate([
             // Title Label Constraints
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
@@ -81,13 +82,11 @@ class LandingViewController: UIViewController {
     // MARK: - Button Actions
 
     @objc private func loginTapped() {
-        // Navigate to the Login page
         let loginVC = LoginViewController()
         navigationController?.pushViewController(loginVC, animated: true)
     }
     
     @objc private func signupTapped() {
-        // Navigate to the Signup page
         let signupVC = SignupViewController()
         navigationController?.pushViewController(signupVC, animated: true)
     }

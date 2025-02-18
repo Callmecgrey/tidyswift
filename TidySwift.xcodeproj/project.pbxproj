@@ -1,0 +1,193 @@
+// !*UTF8*!
+{
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 50;
+    objects = {
+
+        /* Begin PBXBuildFile section */
+        BUILD_FILE_APP_DELEGATE = { isa = PBXBuildFile; fileRef = FILE_APP_DELEGATE; };
+        BUILD_FILE_SCENE_DELEGATE = { isa = PBXBuildFile; fileRef = FILE_SCENE_DELEGATE; };
+        BUILD_FILE_LANDING_VC = { isa = PBXBuildFile; fileRef = FILE_LANDING_VC; };
+        BUILD_FILE_LOGIN_VC = { isa = PBXBuildFile; fileRef = FILE_LOGIN_VC; };
+        BUILD_FILE_SIGNUP_VC = { isa = PBXBuildFile; fileRef = FILE_SIGNUP_VC; };
+        /* End PBXBuildFile section */
+
+        /* Begin PBXFileReference section */
+        FILE_APP_DELEGATE = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "App/AppDelegate.swift";
+            sourceTree = "<group>";
+        };
+        FILE_SCENE_DELEGATE = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "App/SceneDelegate.swift";
+            sourceTree = "<group>";
+        };
+        FILE_LANDING_VC = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "Sources/ViewControllers/LandingViewController.swift";
+            sourceTree = "<group>";
+        };
+        FILE_LOGIN_VC = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "Sources/ViewControllers/LoginViewController.swift";
+            sourceTree = "<group>";
+        };
+        FILE_SIGNUP_VC = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "Sources/ViewControllers/SignupViewController.swift";
+            sourceTree = "<group>";
+        };
+        FILE_INFOPLIST = {
+            isa = PBXFileReference;
+            lastKnownFileType = text.plist.xml;
+            path = "App/Info.plist";
+            sourceTree = "<group>";
+        };
+        /* End PBXFileReference section */
+
+        /* Begin PBXSourcesBuildPhase section */
+        SOURCES_BUILD_PHASE = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                BUILD_FILE_APP_DELEGATE,
+                BUILD_FILE_SCENE_DELEGATE,
+                BUILD_FILE_LANDING_VC,
+                BUILD_FILE_LOGIN_VC,
+                BUILD_FILE_SIGNUP_VC,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        /* End PBXSourcesBuildPhase section */
+
+        /* Begin PBXGroup section */
+        GROUP_MAIN = {
+            isa = PBXGroup;
+            children = (
+                FILE_APP_DELEGATE,
+                FILE_SCENE_DELEGATE,
+                FILE_LANDING_VC,
+                FILE_LOGIN_VC,
+                FILE_SIGNUP_VC,
+                FILE_INFOPLIST,
+                GROUP_PRODUCTS,
+            );
+            sourceTree = "<group>";
+        };
+        GROUP_PRODUCTS = {
+            isa = PBXGroup;
+            children = (
+            );
+            name = Products;
+            sourceTree = "<group>";
+        };
+        /* End PBXGroup section */
+
+        /* Begin PBXProject section */
+        PROJECT_1A2B3C4D = {
+            isa = PBXProject;
+            attributes = {
+                ORGANIZATIONNAME = "Your Organization";
+                LastUpgradeCheck = 1230;
+            };
+            buildConfigurationList = PROJECT_1A2B3C4E;
+            compatibilityVersion = "Xcode 12.0";
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (
+                en,
+            );
+            mainGroup = GROUP_MAIN;
+            productRefGroup = GROUP_PRODUCTS;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (
+                TARGET_1A2B3C51,
+            );
+        };
+        /* End PBXProject section */
+
+        /* Begin PBXNativeTarget section */
+        TARGET_1A2B3C51 = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = TARGET_1A2B3C52;
+            buildPhases = (
+                SOURCES_BUILD_PHASE,
+            );
+            buildRules = (
+            );
+            dependencies = (
+            );
+            name = TidySwift;
+            productName = TidySwift;
+            productType = "com.apple.product-type.application";
+        };
+        /* End PBXNativeTarget section */
+
+        /* Begin XCBuildConfiguration section */
+        CONFIG_DEBUG = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ARCHS = "$(ARCHS_STANDARD)";
+                CLANG_ENABLE_OBJC_ARC = YES;
+                CODE_SIGN_IDENTITY = "iPhone Developer";
+                DEVELOPMENT_TEAM = "";
+                INFOPLIST_FILE = "App/Info.plist";
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.TidySwift";
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphonesimulator;
+                SWIFT_VERSION = "5.0";
+            };
+            name = Debug;
+        };
+        CONFIG_RELEASE = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ARCHS = "$(ARCHS_STANDARD)";
+                CLANG_ENABLE_OBJC_ARC = YES;
+                CODE_SIGN_IDENTITY = "iPhone Developer";
+                DEVELOPMENT_TEAM = "";
+                INFOPLIST_FILE = "App/Info.plist";
+                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.TidySwift";
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SWIFT_VERSION = "5.0";
+            };
+            name = Release;
+        };
+        /* End XCBuildConfiguration section */
+
+        /* Begin XCConfigurationList section */
+        PROJECT_1A2B3C4E = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                CONFIG_DEBUG,
+                CONFIG_RELEASE,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        TARGET_1A2B3C52 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                CONFIG_DEBUG,
+                CONFIG_RELEASE,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        /* End XCConfigurationList section */
+
+    };
+    rootObject = PROJECT_1A2B3C4D;
+}
