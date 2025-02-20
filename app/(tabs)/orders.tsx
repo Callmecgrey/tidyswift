@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform, Modal, TextInput, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../context/theme';
 import { CloseIcon, ShirtIcon, ChevronForwardIcon } from '../../components/icons';
 
 const orders = [
@@ -67,6 +68,7 @@ export default function OrdersScreen() {
   const [editingNote, setEditingNote] = useState(false);
   const [noteText, setNoteText] = useState('');
   const [activeTab, setActiveTab] = useState('all');
+  const { isDark } = useTheme();
 
   const filteredOrders = useCallback(() => {
     if (activeTab === 'all') return orders;
@@ -79,11 +81,14 @@ export default function OrdersScreen() {
   }, [activeTab]);
 
   const OrderCard = ({ order, onPress }) => (
-    <TouchableOpacity style={styles.orderCard} onPress={onPress}>
+    <TouchableOpacity 
+      style={[styles.orderCard, isDark && styles.orderCardDark]} 
+      onPress={onPress}
+    >
       <View style={styles.orderHeader}>
         <View style={styles.orderType}>
           <ShirtIcon size={24} color="#007AFF" />
-          <Text style={styles.orderTypeText}>{order.type}</Text>
+          <Text style={[styles.orderTypeText, isDark && styles.textDark]}>{order.type}</Text>
         </View>
         <View style={[styles.statusBadge, { backgroundColor: `${order.statusColor}20` }]}>
           <Text style={[styles.statusText, { color: order.statusColor }]}>{order.status}</Text>
@@ -92,16 +97,16 @@ export default function OrdersScreen() {
 
       <View style={styles.orderDetails}>
         <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Date</Text>
-          <Text style={styles.detailValue}>{order.date}</Text>
+          <Text style={[styles.detailLabel, isDark && styles.textMutedDark]}>Date</Text>
+          <Text style={[styles.detailValue, isDark && styles.textDark]}>{order.date}</Text>
         </View>
         <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Items</Text>
-          <Text style={styles.detailValue}>{order.totalItems}</Text>
+          <Text style={[styles.detailLabel, isDark && styles.textMutedDark]}>Items</Text>
+          <Text style={[styles.detailValue, isDark && styles.textDark]}>{order.totalItems}</Text>
         </View>
         <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Total</Text>
-          <Text style={styles.detailValue}>{order.price}</Text>
+          <Text style={[styles.detailLabel, isDark && styles.textMutedDark]}>Total</Text>
+          <Text style={[styles.detailValue, isDark && styles.textDark]}>{order.price}</Text>
         </View>
       </View>
 
@@ -121,79 +126,79 @@ export default function OrdersScreen() {
         transparent={true}
         visible={visible}
         onRequestClose={onClose}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
+        <View style={[styles.modalContainer, isDark && styles.modalContainerDark]}>
+          <View style={[styles.modalContent, isDark && styles.modalContentDark]}>
+            <View style={[styles.modalHeader, isDark && styles.modalHeaderDark]}>
               <View style={styles.modalHeaderContent}>
-                <Text style={styles.modalTitle}>Order Details</Text>
+                <Text style={[styles.modalTitle, isDark && styles.textDark]}>Order Details</Text>
                 <View style={[styles.modalStatusBadge, { backgroundColor: `${order.statusColor}20` }]}>
                   <Text style={[styles.modalStatusText, { color: order.statusColor }]}>{order.status}</Text>
                 </View>
               </View>
               <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                <CloseIcon size={24} color="#8E8E93" />
+                <CloseIcon size={24} color={isDark ? '#8E8E93' : '#8E8E93'} />
               </TouchableOpacity>
             </View>
 
             <ScrollView 
               style={styles.modalScroll}
               contentContainerStyle={styles.modalScrollContent}>
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Order Information</Text>
+              <View style={[styles.section, isDark && styles.sectionDark]}>
+                <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Order Information</Text>
                 <View style={styles.sectionContent}>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Order Type</Text>
-                    <Text style={styles.infoValue}>{order.type}</Text>
+                    <Text style={[styles.infoLabel, isDark && styles.textMutedDark]}>Order Type</Text>
+                    <Text style={[styles.infoValue, isDark && styles.textDark]}>{order.type}</Text>
                   </View>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Date</Text>
-                    <Text style={styles.infoValue}>{order.date}</Text>
+                    <Text style={[styles.infoLabel, isDark && styles.textMutedDark]}>Date</Text>
+                    <Text style={[styles.infoValue, isDark && styles.textDark]}>{order.date}</Text>
                   </View>
                   {order.estimatedCompletion && (
                     <View style={styles.infoRow}>
-                      <Text style={styles.infoLabel}>Est. Completion</Text>
-                      <Text style={styles.infoValue}>{order.estimatedCompletion}</Text>
+                      <Text style={[styles.infoLabel, isDark && styles.textMutedDark]}>Est. Completion</Text>
+                      <Text style={[styles.infoValue, isDark && styles.textDark]}>{order.estimatedCompletion}</Text>
                     </View>
                   )}
                   {order.deliveredAt && (
                     <View style={styles.infoRow}>
-                      <Text style={styles.infoLabel}>Delivered At</Text>
-                      <Text style={styles.infoValue}>{order.deliveredAt}</Text>
+                      <Text style={[styles.infoLabel, isDark && styles.textMutedDark]}>Delivered At</Text>
+                      <Text style={[styles.infoValue, isDark && styles.textDark]}>{order.deliveredAt}</Text>
                     </View>
                   )}
                 </View>
               </View>
 
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Items</Text>
+              <View style={[styles.section, isDark && styles.sectionDark]}>
+                <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Items</Text>
                 <View style={styles.sectionContent}>
                   {order.items.map((item, index) => (
                     <View key={index} style={styles.itemRow}>
                       <View style={styles.itemInfo}>
-                        <Text style={styles.itemName}>{item.name}</Text>
-                        <Text style={styles.itemQuantity}>Qty: {item.quantity}</Text>
+                        <Text style={[styles.itemName, isDark && styles.textDark]}>{item.name}</Text>
+                        <Text style={[styles.itemQuantity, isDark && styles.textMutedDark]}>Qty: {item.quantity}</Text>
                       </View>
-                      <Text style={styles.itemPrice}>{item.price}</Text>
+                      <Text style={[styles.itemPrice, isDark && styles.textDark]}>{item.price}</Text>
                     </View>
                   ))}
                   <View style={styles.totalRow}>
-                    <Text style={styles.totalLabel}>Total</Text>
+                    <Text style={[styles.totalLabel, isDark && styles.textDark]}>Total</Text>
                     <Text style={styles.totalAmount}>{order.price}</Text>
                   </View>
                 </View>
               </View>
 
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Delivery Address</Text>
+              <View style={[styles.section, isDark && styles.sectionDark]}>
+                <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Delivery Address</Text>
                 <View style={styles.sectionContent}>
-                  <Text style={styles.address}>{order.address}</Text>
+                  <Text style={[styles.address, isDark && styles.textDark]}>{order.address}</Text>
                 </View>
               </View>
 
               {order.notes && (
-                <View style={styles.section}>
+                <View style={[styles.section, isDark && styles.sectionDark]}>
                   <View style={styles.notesHeader}>
-                    <Text style={styles.sectionTitle}>Notes</Text>
+                    <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Notes</Text>
                     {order.status === 'In Progress' && (
                       <TouchableOpacity 
                         onPress={() => {
@@ -209,21 +214,22 @@ export default function OrdersScreen() {
                   <View style={styles.sectionContent}>
                     {editingNote && order.status === 'In Progress' ? (
                       <TextInput
-                        style={styles.noteInput}
+                        style={[styles.noteInput, isDark && styles.noteInputDark]}
                         value={noteText}
                         onChangeText={setNoteText}
                         multiline
                         placeholder="Add your notes here..."
+                        placeholderTextColor={isDark ? '#8E8E93' : '#8E8E93'}
                       />
                     ) : (
-                      <Text style={styles.notes}>{order.notes}</Text>
+                      <Text style={[styles.notes, isDark && styles.textDark]}>{order.notes}</Text>
                     )}
                   </View>
                 </View>
               )}
 
               {order.status === 'In Progress' && (
-                <TouchableOpacity style={styles.supportButton}>
+                <TouchableOpacity style={[styles.supportButton, isDark && styles.supportButtonDark]}>
                   <ShirtIcon size={20} color="#007AFF" />
                   <Text style={styles.supportButtonText}>Contact Support</Text>
                 </TouchableOpacity>
@@ -238,15 +244,15 @@ export default function OrdersScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>My Orders</Text>
-        <TouchableOpacity style={styles.filterButton}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
+      <View style={[styles.header, isDark && styles.headerDark]}>
+        <Text style={[styles.title, isDark && styles.textDark]}>My Orders</Text>
+        <TouchableOpacity style={[styles.filterButton, isDark && styles.filterButtonDark]}>
           <ShirtIcon size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tabsContainer}>
+      <View style={[styles.tabsContainer, isDark && styles.tabsContainerDark]}>
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false}
@@ -262,6 +268,8 @@ export default function OrdersScreen() {
               <Text style={[
                 styles.tabText,
                 activeTab === tab.id && styles.activeTabText,
+                isDark && styles.textMutedDark,
+                activeTab === tab.id && isDark && styles.activeTabText,
               ]}>
                 {tab.label}
               </Text>
@@ -302,22 +310,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F2F2F7',
   },
+  containerDark: {
+    backgroundColor: '#000',
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 15,
+    backgroundColor: '#fff',
+  },
+  headerDark: {
+    backgroundColor: '#1C1C1E',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
+    color: '#000',
   },
   filterButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F7',
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
@@ -332,10 +348,17 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  filterButtonDark: {
+    backgroundColor: '#2C2C2E',
+  },
   tabsContainer: {
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
+  },
+  tabsContainerDark: {
+    backgroundColor: '#1C1C1E',
+    borderBottomColor: '#2C2C2E',
   },
   tabsContent: {
     paddingHorizontal: 16,
@@ -379,6 +402,9 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  orderCardDark: {
+    backgroundColor: '#1C1C1E',
+  },
   orderHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -393,6 +419,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginLeft: 10,
+    color: '#000',
   },
   statusBadge: {
     paddingHorizontal: 12,
@@ -420,6 +447,7 @@ const styles = StyleSheet.create({
   detailValue: {
     fontSize: 14,
     fontWeight: '500',
+    color: '#000',
   },
   viewDetailsButton: {
     flexDirection: 'row',
@@ -440,11 +468,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-end',
   },
+  modalContainerDark: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   modalContent: {
     backgroundColor: '#F2F2F7',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '90%',
+  },
+  modalContentDark: {
+    backgroundColor: '#000',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -456,6 +490,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+  },
+  modalHeaderDark: {
+    backgroundColor: '#1C1C1E',
+    borderBottomColor: '#2C2C2E',
   },
   modalHeaderContent: {
     flexDirection: 'row',
@@ -473,6 +511,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
+    color: '#000',
   },
   modalStatusBadge: {
     paddingHorizontal: 12,
@@ -495,12 +534,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     overflow: 'hidden',
   },
+  sectionDark: {
+    backgroundColor: '#1C1C1E',
+  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
+    color: '#000',
   },
   sectionContent: {
     padding: 15,
@@ -517,6 +560,7 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 14,
     fontWeight: '500',
+    color: '#000',
   },
   itemRow: {
     flexDirection: 'row',
@@ -531,6 +575,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     marginBottom: 2,
+    color: '#000',
   },
   itemQuantity: {
     fontSize: 13,
@@ -539,6 +584,7 @@ const styles = StyleSheet.create({
   itemPrice: {
     fontSize: 15,
     fontWeight: '600',
+    color: '#000',
   },
   totalRow: {
     flexDirection: 'row',
@@ -551,6 +597,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#000',
   },
   totalAmount: {
     fontSize: 16,
@@ -571,11 +618,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F7',
     padding: 16,
     borderRadius: 12,
     marginTop: 20,
     marginBottom: 10,
+  },
+  supportButtonDark: {
+    backgroundColor: '#2C2C2E',
   },
   supportButtonText: {
     marginLeft: 8,
@@ -607,7 +657,18 @@ const styles = StyleSheet.create({
     minHeight: 100,
     textAlignVertical: 'top',
   },
+  noteInputDark: {
+    backgroundColor: '#2C2C2E',
+    borderColor: '#3C3C3E',
+    color: '#fff',
+  },
   bottomPadding: {
     height: 40,
+  },
+  textDark: {
+    color: '#fff',
+  },
+  textMutedDark: {
+    color: '#8E8E93',
   },
 });

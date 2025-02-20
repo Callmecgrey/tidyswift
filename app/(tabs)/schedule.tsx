@@ -1,31 +1,33 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../context/theme';
+import { 
+  ShirtIcon, 
+  TimeIcon,
+  ChevronDownIcon,
+  ChevronUpIcon 
+} from '../../components/icons';
 
 const services = [
   { 
     id: 1, 
     name: 'Wash & Dry', 
-    icon: 'shirt',
     description: 'Professional washing and drying service'
   },
   { 
     id: 2, 
     name: 'Dry Cleaning', 
-    icon: 'shirt-outline',
     description: 'Expert care for delicate garments'
   },
   { 
     id: 3, 
     name: 'Shoe Cleaning', 
-    icon: 'footsteps',
     description: 'Restore your shoes to like-new condition'
   },
   { 
     id: 4, 
     name: 'Car Cleaning', 
-    icon: 'car',
     description: 'Interior and exterior car detailing'
   },
 ];
@@ -41,6 +43,7 @@ export default function ScheduleScreen() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { isDark } = useTheme();
 
   const getDayName = (date) => {
     return date.toLocaleDateString('en-US', { weekday: 'short' });
@@ -84,16 +87,13 @@ export default function ScheduleScreen() {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const selectedDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
     
-    // If selected date is in the future, all time slots are available
     if (selectedDay > today) return true;
     
-    // If selected date is today, check if the time has passed
     if (selectedDay.getTime() === today.getTime()) {
       const [timeStr, period] = time.split(' ');
       const [hours, minutes] = timeStr.split(':');
       let timeHours = parseInt(hours);
       
-      // Convert to 24-hour format
       if (period === 'PM' && timeHours !== 12) timeHours += 12;
       if (period === 'AM' && timeHours === 12) timeHours = 0;
       
@@ -109,67 +109,68 @@ export default function ScheduleScreen() {
   const selectedServiceData = services.find(s => s.id === selectedService);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.title}>Select a Service</Text>
+        <Text style={[styles.title, isDark && styles.textDark]}>Select a Service</Text>
 
-        <Text style={styles.sectionTitle}>Select Service</Text>
+        <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Select Service</Text>
         <View style={styles.dropdownContainer}>
           <TouchableOpacity
-            style={styles.dropdownButton}
+            style={[styles.dropdownButton, isDark && styles.dropdownButtonDark]}
             onPress={() => setIsDropdownOpen(!isDropdownOpen)}>
             <View style={styles.dropdownButtonContent}>
               {selectedService ? (
                 <>
-                  <Ionicons
-                    name={selectedServiceData.icon}
+                  <ShirtIcon
                     size={24}
-                    color="#007AFF"
+                    color={isDark ? '#0A84FF' : '#007AFF'}
                   />
-                  <Text style={styles.selectedServiceText}>
+                  <Text style={[styles.selectedServiceText, isDark && styles.textDark]}>
                     {selectedServiceData.name}
                   </Text>
                 </>
               ) : (
-                <Text style={styles.placeholderText}>Choose a service</Text>
+                <Text style={[styles.placeholderText, isDark && styles.textMutedDark]}>Choose a service</Text>
               )}
             </View>
-            <Ionicons
-              name={isDropdownOpen ? 'chevron-up' : 'chevron-down'}
-              size={24}
-              color="#8E8E93"
-            />
+            {isDropdownOpen ? (
+              <ChevronUpIcon size={24} color={isDark ? '#8E8E93' : '#8E8E93'} />
+            ) : (
+              <ChevronDownIcon size={24} color={isDark ? '#8E8E93' : '#8E8E93'} />
+            )}
           </TouchableOpacity>
 
           {isDropdownOpen && (
-            <View style={styles.dropdownList}>
+            <View style={[styles.dropdownList, isDark && styles.dropdownListDark]}>
               {services.map((service) => (
                 <TouchableOpacity
                   key={service.id}
                   style={[
                     styles.dropdownItem,
                     selectedService === service.id && styles.dropdownItemSelected,
+                    isDark && styles.dropdownItemDark,
+                    selectedService === service.id && isDark && styles.dropdownItemSelectedDark,
                   ]}
                   onPress={() => {
                     setSelectedService(service.id);
                     setIsDropdownOpen(false);
                   }}>
                   <View style={styles.dropdownItemContent}>
-                    <View style={styles.serviceIcon}>
-                      <Ionicons
-                        name={service.icon}
+                    <View style={[styles.serviceIcon, isDark && styles.serviceIconDark]}>
+                      <ShirtIcon
                         size={24}
-                        color={selectedService === service.id ? '#007AFF' : '#8E8E93'}
+                        color={selectedService === service.id ? (isDark ? '#0A84FF' : '#007AFF') : isDark ? '#8E8E93' : '#8E8E93'}
                       />
                     </View>
                     <View style={styles.serviceText}>
                       <Text style={[
                         styles.serviceName,
                         selectedService === service.id && styles.serviceNameSelected,
+                        isDark && styles.textDark,
                       ]}>
                         {service.name}
                       </Text>
-                      <Text style={styles.serviceDescription}>
+                      <Text style={[styles.serviceDescription, isDark && styles.textMutedDark]}>
                         {service.description}
                       </Text>
                     </View>
@@ -182,7 +183,7 @@ export default function ScheduleScreen() {
 
         {selectedService && (
           <>
-            <Text style={styles.sectionTitle}>Select Date</Text>
+            <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Select Date</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.datesContainer}>
               {getNextDays().map((date) => (
                 <TouchableOpacity
@@ -190,15 +191,19 @@ export default function ScheduleScreen() {
                   style={[
                     styles.dateCard,
                     selectedDate?.toDateString() === date.toDateString() && styles.dateCardSelected,
+                    isDark && styles.dateCardDark,
+                    selectedDate?.toDateString() === date.toDateString() && isDark && styles.dateCardSelectedDark,
                   ]}
                   onPress={() => {
                     setSelectedDate(date);
-                    setSelectedTime(null); // Reset time when date changes
+                    setSelectedTime(null);
                   }}>
                   <Text
                     style={[
                       styles.dayName,
                       selectedDate?.toDateString() === date.toDateString() && styles.dateTextSelected,
+                      isDark && styles.textMutedDark,
+                      selectedDate?.toDateString() === date.toDateString() && isDark && styles.dateTextSelected,
                     ]}>
                     {getDayName(date)}
                   </Text>
@@ -206,6 +211,8 @@ export default function ScheduleScreen() {
                     style={[
                       styles.dateNumber,
                       selectedDate?.toDateString() === date.toDateString() && styles.dateTextSelected,
+                      isDark && styles.textDark,
+                      selectedDate?.toDateString() === date.toDateString() && isDark && styles.dateTextSelected,
                     ]}>
                     {getDateNumber(date)}
                   </Text>
@@ -215,7 +222,7 @@ export default function ScheduleScreen() {
 
             {selectedDate && (
               <>
-                <Text style={styles.sectionTitle}>Select Time</Text>
+                <Text style={[styles.sectionTitle, isDark && styles.textDark]}>Select Time</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.timeSlotsContainer}>
                   {timeSlots.map((time) => {
                     const available = isTimeSlotAvailable(time);
@@ -226,15 +233,17 @@ export default function ScheduleScreen() {
                           styles.timeSlot,
                           selectedTime === time && styles.timeSlotSelected,
                           !available && styles.timeSlotUnavailable,
+                          isDark && styles.timeSlotDark,
+                          selectedTime === time && isDark && styles.timeSlotSelectedDark,
+                          !available && isDark && styles.timeSlotUnavailableDark,
                         ]}
                         onPress={() => available && setSelectedTime(time)}
                         disabled={!available}>
-                        <Ionicons
-                          name="time"
+                        <TimeIcon
                           size={20}
                           color={
-                            !available ? '#C7C7CC' :
-                            selectedTime === time ? '#fff' : '#8E8E93'
+                            !available ? isDark ? '#3C3C3E' : '#C7C7CC' :
+                            selectedTime === time ? '#fff' : isDark ? '#8E8E93' : '#8E8E93'
                           }
                           style={styles.timeIcon}
                         />
@@ -243,6 +252,9 @@ export default function ScheduleScreen() {
                             styles.timeText,
                             selectedTime === time && styles.timeTextSelected,
                             !available && styles.timeTextUnavailable,
+                            isDark && styles.textDark,
+                            selectedTime === time && isDark && styles.timeTextSelected,
+                            !available && isDark && styles.timeTextUnavailableDark,
                           ]}>
                           {time}
                         </Text>
@@ -256,9 +268,9 @@ export default function ScheduleScreen() {
         )}
 
         {selectedService && selectedDate && selectedTime && (
-          <View style={styles.summaryContainer}>
-            <Text style={styles.summaryTitle}>Service Summary</Text>
-            <Text style={styles.summaryText}>
+          <View style={[styles.summaryContainer, isDark && styles.summaryContainerDark]}>
+            <Text style={[styles.summaryTitle, isDark && styles.textDark]}>Service Summary</Text>
+            <Text style={[styles.summaryText, isDark && styles.textMutedDark]}>
               Service: {selectedServiceData.name}{'\n'}
               Date: {getDateDescription(selectedDate)}{'\n'}
               Time: {selectedTime} {getTimeDescription(selectedTime)}
@@ -284,6 +296,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F2F2F7',
   },
+  containerDark: {
+    backgroundColor: '#000',
+  },
   scrollView: {
     flex: 1,
     padding: 20,
@@ -292,12 +307,14 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#000',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     marginTop: 20,
     marginBottom: 15,
+    color: '#000',
   },
   dropdownContainer: {
     position: 'relative',
@@ -321,6 +338,9 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
+  },
+  dropdownButtonDark: {
+    backgroundColor: '#1C1C1E',
   },
   dropdownButtonContent: {
     flexDirection: 'row',
@@ -355,13 +375,22 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  dropdownListDark: {
+    backgroundColor: '#1C1C1E',
+  },
   dropdownItem: {
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#F2F2F7',
   },
+  dropdownItemDark: {
+    borderBottomColor: '#2C2C2E',
+  },
   dropdownItemSelected: {
     backgroundColor: '#F2F2F7',
+  },
+  dropdownItemSelectedDark: {
+    backgroundColor: '#2C2C2E',
   },
   dropdownItemContent: {
     flexDirection: 'row',
@@ -376,6 +405,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 12,
   },
+  serviceIconDark: {
+    backgroundColor: '#2C2C2E',
+  },
   serviceText: {
     flex: 1,
   },
@@ -383,6 +415,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
+    color: '#000',
   },
   serviceNameSelected: {
     color: '#007AFF',
@@ -417,8 +450,14 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  dateCardDark: {
+    backgroundColor: '#1C1C1E',
+  },
   dateCardSelected: {
     backgroundColor: '#007AFF',
+  },
+  dateCardSelectedDark: {
+    backgroundColor: '#0A84FF',
   },
   dayName: {
     fontSize: 14,
@@ -428,6 +467,7 @@ const styles = StyleSheet.create({
   dateNumber: {
     fontSize: 20,
     fontWeight: '600',
+    color: '#000',
   },
   dateTextSelected: {
     color: '#fff',
@@ -458,11 +498,21 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  timeSlotDark: {
+    backgroundColor: '#1C1C1E',
+  },
   timeSlotSelected: {
     backgroundColor: '#007AFF',
   },
+  timeSlotSelectedDark: {
+    backgroundColor: '#0A84FF',
+  },
   timeSlotUnavailable: {
     backgroundColor: '#F2F2F7',
+    opacity: 0.7,
+  },
+  timeSlotUnavailableDark: {
+    backgroundColor: '#2C2C2E',
     opacity: 0.7,
   },
   timeIcon: {
@@ -477,6 +527,9 @@ const styles = StyleSheet.create({
   },
   timeTextUnavailable: {
     color: '#C7C7CC',
+  },
+  timeTextUnavailableDark: {
+    color: '#3C3C3E',
   },
   summaryContainer: {
     backgroundColor: '#fff',
@@ -495,6 +548,9 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
+  },
+  summaryContainerDark: {
+    backgroundColor: '#1C1C1E',
   },
   summaryTitle: {
     fontSize: 16,
@@ -522,5 +578,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  textDark: {
+    color: '#fff',
+  },
+  textMutedDark: {
+    color: '#8E8E93',
   },
 });

@@ -10,8 +10,11 @@ import {
   ProfileIcon,
   ProfileFilledIcon,
 } from '../../components/icons';
+import { useTheme } from '../context/theme';
 
 export default function TabLayout() {
+  const { isDark } = useTheme();
+  
   return (
     <Tabs
       screenOptions={{
@@ -28,9 +31,11 @@ export default function TabLayout() {
               elevation: 8,
             },
           }),
+          backgroundColor: isDark ? '#1C1C1E' : '#fff',
+          borderTopColor: isDark ? '#2C2C2E' : '#E5E5EA',
         },
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
+        tabBarActiveTintColor: isDark ? '#0A84FF' : '#007AFF',
+        tabBarInactiveTintColor: isDark ? '#8E8E93' : '#8E8E93',
       }}>
       <Tabs.Screen
         name="index"
@@ -57,7 +62,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="account"
+        name="Profile"
         options={{
           title: 'Profile',
           tabBarIcon: ({ focused, color, size }) => 

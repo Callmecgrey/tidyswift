@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LocationIcon, ChevronForwardIcon } from '../../../components/icons';
+import { LocationPinIcon, ChevronForwardIcon } from '../../../components/icons';
 
 const addresses = [
   {
@@ -37,7 +37,7 @@ export default function AddressesScreen() {
             <TouchableOpacity key={address.id} style={styles.addressItem}>
               <View style={styles.addressInfo}>
                 <View style={styles.addressIconContainer}>
-                  <LocationIcon size={24} color="#007AFF" />
+                  <LocationPinIcon size={24} color="#007AFF" />
                 </View>
                 <View>
                   <View style={styles.addressHeader}>
